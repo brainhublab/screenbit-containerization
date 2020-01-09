@@ -1,0 +1,3 @@
+[submodule "screenbitApi"]
+	path = screenbitApi
+	url = http://git.brainhub.co/peio_jr/screenbitApi.git
