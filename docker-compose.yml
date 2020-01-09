@@ -1,0 +1,73 @@
+version: "3"
+
+networks:
+  screenbit_tier:
+    driver: bridge
+
+
+services:
+  # postgres database container
+  db:
+    container_name: screenbit_db
+    image: postgres:latest
+    env_file:
+      - ".env"
+    environment:
+      POSTGRES_PASSWORD: "${POSTGRES_PASSWORD}"
+    volumes:
+      - ./postgres_data:/var/lib/postgresql/data/
+    restart: always
+    networks:
+      - screenbit_tier
+
+  # redis cashing
+  redis:
+    container_name: screenbit_redis
+    command: ["redis-server", "--appendonly", "yes"]
+    image: redis:latest
+    env_file:
+      - ".env"
+    ports:
+      - "${REDIS_PORT}:6379"
+    command: redis-server /usr/local/etc/redis/redis.conf
+    volumes:
+      - ./redis.conf:/usr/local/etc/redis/redis.conf
+      - ./redis-data:/data
+    depends_on:
+      - db
+    restart: always
+    networks:
+      - screenbit_tier
+
+  # memcached
+  memcached:
+    container_name: screenbit_memcached
+    image: memcached:latest
+    command: ["-m", "512m"]
+    expose:
+      - "11211"
+    depends_on:
+      - redis
+    restart: always
+    networks:
+      - screenbit_tier
+
+  # screenbit api container
+  api:
+    container_name: screenbit_api
+    env_file:
+      - '.env'
+    build:
+      context: ./screenbitApi/
+      dockerfile: Dockerfile
+    volumes:
+      - ./screenbitApi:/usr/src/screenbitApi
+      - ./server_media:/usr/src/screenbitRest/media
+      - ${SSL_CERTIFICATE_DIR}:/etc/ssl/certs/:ro
+    ports:
+      - "${screenbit_API_PORT}:${screenbit_API_PORT}"
+    depends_on:
+      - memcached
+    restart: always
+    networks:
+      - screenbit_tier

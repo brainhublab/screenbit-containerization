@@ -1,0 +1,5 @@
+*.pyc
+.env
+server_media
+redis-data
+postgres_data
