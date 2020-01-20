@@ -65,7 +65,7 @@ services:
       - ./server_media:/usr/src/screenbitRest/media
       - ${SSL_CERTIFICATE_DIR}:/etc/ssl/certs/:ro
     ports:
-      - "${screenbit_API_PORT}:${screenbit_API_PORT}"
+      - "${SCREENBIT_API_PORT}:${SCREENBIT_API_PORT}"
     depends_on:
       - memcached
     restart: always
