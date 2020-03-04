@@ -62,7 +62,7 @@ services:
       dockerfile: Dockerfile
     volumes:
       - ./screenbitApi:/usr/src/screenbitApi
-      - ./server_media:/usr/src/screenbitRest/media
+      - ./server_media:/usr/src/screenbitApi/media
       - ${SSL_CERTIFICATE_DIR}:/etc/ssl/certs/:ro
     ports:
       - "${SCREENBIT_API_PORT}:${SCREENBIT_API_PORT}"
