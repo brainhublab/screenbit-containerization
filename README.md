@@ -1,5 +1,7 @@
 # docker integration for screenbit project
 
+first clone `screenbitApi` from git
+
 create env: `cp env-distrib .env`
 
 `docker-compose up` (use `-d` to detach it)

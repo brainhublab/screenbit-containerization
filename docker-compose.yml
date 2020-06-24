@@ -75,3 +75,39 @@ services:
     restart: always
     networks:
       - screenbit_tier
+
+  rabbitmq_broker:
+    container_name: screenbit_rabbit
+    image: rabbitmq:latest
+    env_file:
+      - '.env'
+    environment:
+      RABBITMQ_DEFAULT_USER: "${RABBITMQ_DEFAULT_USER}"
+      RABBITMQ_DEFAULT_PASS: "${RABBITMQ_DEFAULT_PASS}"
+      RABBITMQ_DEFAULT_VHOST: "${RABBITMQ_DEFAULT_VHOST}"
+    ports:
+      - "${RABBITMQ_PORT}:${RABBITMQ_PORT}"
+    restart: on-failure:5
+    networks:
+      - screenbit_tier
+
+  worker:
+     container_name: statistics_worker
+     build:
+       context: ./statistics_celery/
+       dockerfile: Dockerfile
+     command: ["celery", "-A", "my_tasks", "worker", "--loglevel=DEBUG", "--beat"]
+     env_file:
+       - '.env'
+     volumes:
+       - ./statistics_celery:/usr/src/statistics_celery
+     environment:
+       RABBITMQ_HOST: "${RABBITMQ_DEFAULT_VHOST}"
+       RABBITMQ_PORT: "${RABBITMQ_PORT}"
+       CELERY_USERNAME: ${RABBITMQ_DEFAULT_USER}
+       CELERY_PASSWORD: ${RABBITMQ_DEFAULT_PASS}
+     depends_on:
+       - rabbitmq_broker
+     restart: on-failure:5
+     networks:
+       - screenbit_tier
