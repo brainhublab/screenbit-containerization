@@ -1,6 +1,6 @@
 # docker integration for screenbit project
 
-first clone `screenbitApi` from git
+first clone `screenbitApi` (develop branch) from git
 
 create env: `cp env-distrib .env`
 
