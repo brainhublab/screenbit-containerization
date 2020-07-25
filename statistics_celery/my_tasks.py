@@ -1,6 +1,5 @@
 from celery import Celery
-from celery.decorators import periodic_task
-from datetime import timedelta
+from celery.schedules import crontab
 from local_settings import RABBITMQ_PORT, RABBITMQ_DEFAULT_USER, \
                            RABBITMQ_DEFAULT_PASS, RABBITMQ_DEFAULT_HOST
 from task_requests import TaskRequests
@@ -11,11 +10,19 @@ app = Celery("tasks", broker="amqp://{}:{}@{}:{}".format(RABBITMQ_DEFAULT_USER,
                                                          RABBITMQ_PORT))
 
 
-@periodic_task(run_every=timedelta(seconds=30))
-def every_30_seconds():
+@app.on_after_configure.connect
+def setup_periodic_tasks(sender, **kwargs):
+    # call every hour task on 15th minute of hour
+    sender.add_periodic_task(
+        crontab(hour="0-23", minute=15),
+        every_hour.s(),
+    )
+
+
+@app.task
+def every_hour():
     hour = TaskRequests()._get_previus_hour()
     ads = TaskRequests().get_current_hour_active_ads(hour)
-
     post_data = {}
     for ad in ads:
         post_data[str(ad["id"])] = {}
