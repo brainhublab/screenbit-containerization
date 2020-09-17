@@ -31,7 +31,7 @@
     ```
     cd project directory
     ```
-3. clone [Peevdimitar95/screenbitApi](http://git.brainhub.co/peio_jr/agrobotApi.git)
+3. clone [Peevdimitar95/screenbitApi](https://git.brainhub.co/peio_jr/screenbitApi/tree/develop)
 4. Create .env file and fill in (use env-distrib for template)
 5. Build images in docker compose:
     ```
