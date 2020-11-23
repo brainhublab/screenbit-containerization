@@ -58,11 +58,11 @@ services:
     env_file:
       - '.env'
     build:
-      context: ./screenbitApi/
+      context: ./screenbit-api/
       dockerfile: Dockerfile
     volumes:
-      - ./screenbitApi:/usr/src/screenbitApi
-      - ./server_media:/usr/src/screenbitApi/server_media
+      - ./screenbit-api:/usr/src/screenbit-api
+      - ./server_media:/usr/src/screenbit-api/server_media
       - ${SSL_CERTIFICATE_DIR}:/etc/ssl/certs/:ro
     ports:
       # Developement

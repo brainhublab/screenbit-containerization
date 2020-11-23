@@ -31,7 +31,7 @@
     ```
     cd project directory
     ```
-3. clone [Peevdimitar95/screenbitApi](https://git.brainhub.co/peio_jr/screenbitApi/tree/develop)
+3. Clone [brainhublab/screenbit-api](https://github.com/brainhublab/screenbit-api)
 4. Create .env file and fill in (use env-distrib for template)
 5. Build images in docker compose:
     ```
@@ -59,7 +59,7 @@
       - client_id and client_secret shouldn't be changed
       - user should be your superuser
       - redirect_uris should be left blank
-      - client_type should be set to confidential
+      - client_type should be set to 'confidential'
       - authorization_grant_type should be set to 'Resource owner password-based'
       - name can be set to whatever you want (i.e. 'password-based-auth')
 

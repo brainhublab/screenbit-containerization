@@ -6,21 +6,21 @@ SSL_CERTIFICATE_DIR=/etc/letsencrypt/live/demo.brainhub.co/
 
 # Postgres
 POSTGRES_HOST=db
-POSTGRES_PORT=5432
+POSTGRES_PORT=5432  # (default)
 POSTGRES_USER=screenbitPGS
 POSTGRES_NAME=screenbitPGS
 POSTGRES_PASSWORD=p@@ssword
 
 # Redis
-REDIS_HOST=redis  # change it if change the name of service in docker-compose !!!
-REDIS_PORT=
+REDIS_HOST=redis  # change the redist host if you change the name of service in docker-compose !!!
+REDIS_PORT=6379  # (default)
 
 # RabbitMQ
-RABBITMQ_PORT=
+RABBITMQ_PORT=5672  # (default)
 RABBITMQ_DEFAULT_USER=
 RABBITMQ_DEFAULT_PASS=
 RABBITMQ_DEFAULT_VHOST=/
-RABBITMQ_DEFAULT_HOST=rabbitmq_broker # change it if change the name of service in docker-compose !!!
+RABBITMQ_DEFAULT_HOST=rabbitmq_broker # change the RabbitMQ host if you change the name of service in docker-compose !!!
 
 WORKER_TOKEN=
 
@@ -32,7 +32,7 @@ MEMCACHED_LOCATION=
 ## Server URLs
 SCREENBIT_API_URL=
 SCREENBIT_API_HOST=
-SCREENBIT_API_PORT=
+SCREENBIT_API_PORT=8000  # (django default)
 MEDIA_API_URL=
 
 SCREENBIT_API_EVENTS_URL=
